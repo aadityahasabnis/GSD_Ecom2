@@ -31,12 +31,12 @@ products = [
     }
 ]
 
-# Sample in-memory users list
+
 users = [
     {
         'id': 1,
         'username': 'admin',
-        'password': 'admin123',  # NEVER store plaintext passwords in production!
+        'password': 'admin123', 
         'is_admin': True
     },
     {
@@ -214,7 +214,7 @@ def checkout():
                 total += item_total
                 cart_items.append({'product': product, 'quantity': item['quantity'], 'total': item_total})
         return render_template('checkout.html', cart_items=cart_items, total=total, user=user)
-# -------------------------------------------------------------
+    
 # ----------------------- ADMIN ROUTES -----------------------
 @app.route('/admin')
 def admin_dashboard():
@@ -224,16 +224,6 @@ def admin_dashboard():
         flash('Access denied. Admins only.', 'danger')
         return redirect(url_for('index'))
     return render_template('admin/dashboard.html', products=products, user=user)
-
-
-
-# def admin_dashboard():
-#     user = get_current_user()
-#     print("Current user:", user)  # Debugging output
-#     if not is_admin():
-#         flash('Access denied. Admins only.', 'danger')
-#         return redirect(url_for('index'))
-#     return render_template('admin/dashboard.html', products=products, user=user)
 
 @app.route('/admin/add_product', methods=['GET', 'POST'])
 def admin_add_product():
@@ -298,8 +288,6 @@ def admin_edit_product(product_id):
     
     return render_template('admin/edit_product.html', product=product, user=get_current_user())
 
-
-
 @app.route('/admin/delete_product/<int:product_id>', methods=['POST'])
 def admin_delete_product(product_id):
     """Admin can delete a product."""
@@ -333,9 +321,6 @@ def api_add_product():
         new_product['id'] = max([p['id'] for p in products]) + 1 if products else 1
     products.append(new_product)
     return jsonify({'message': 'Product added', 'product': new_product}), 201
-
-# (Additional API endpoints for updating or deleting products, managing users, cart, and orders
-# can be added here using PUT and DELETE methods as needed.)
 
 # ----------------------- RUN THE APP -----------------------
 if __name__ == '__main__':
